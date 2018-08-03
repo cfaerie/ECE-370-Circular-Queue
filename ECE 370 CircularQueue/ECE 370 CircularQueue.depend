@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1533329994 source:c:\users\rachel\documents\github\ece-370-circular-queue\ece 370 circularqueue\main.cpp
+	<iostream>
+	<cmath>
+	<fstream>
+	<cstring>
+
