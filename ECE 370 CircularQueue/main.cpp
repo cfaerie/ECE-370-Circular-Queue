@@ -565,6 +565,7 @@ public:
                 //need to adjust head and tail as queue is filled
                 head = tail;
         }
+        //cout<<"Enqueue current queue Size: "<<qsize<<endl;
     }
     string dequeue(void)
     {
@@ -580,6 +581,7 @@ public:
                 head = 0;//15-1
             }
             qsize = qsize-1;
+            //cout<<"Dequeue current queue Size: "<<qsize<<endl;
             return(output);
         }
     }
@@ -623,8 +625,8 @@ public:
 
         for(int i=0;i<qsize;i++)
         {
-                //cout<<"Current Head Index: " <<tempHead<<endl;
-            //cout<<" "<<cqueue[tempHead];
+            //cout<<"Current Head Index: " <<tempHead<<endl;
+            //cout<<" "<<cqueue[tempHead]<<endl;
             s = s+cqueue[tempHead];
             tempHead = (tempHead+1)%15;
 
@@ -726,8 +728,9 @@ public:
     }
 };
 
-float EVAL_POSTFIX(CSQueue myQueue)
+float EVAL_POSTFIX(CSQueue& myQueue)
 {
+        //Using & to pass by reference fixed my dequeue issue.
         //Function will have to take in the queue after postfix is done
         //will pass through a variable to save the calculation result to. Also returns that value to be saved to a variable
         string s;
@@ -740,7 +743,9 @@ float EVAL_POSTFIX(CSQueue myQueue)
 
         for(i=0;i<qs;i++)
         {
+            //myQueue.toString();
             currentChar = myQueue.dequeue();
+            //cout<<"Current Char Pulled from Queue: " << currentChar<<endl;
 
             if(str2int(currentChar) != 0 || currentChar == "0") //Might need to be reworked to handle 2+ digit nums
             {
@@ -777,11 +782,17 @@ float EVAL_POSTFIX(CSQueue myQueue)
                         }
                         //push V to stack
                         fstack.push(V);
+                        //fstack.display();
                     }
 
         }
         //return floating result to variable
+        //cout<<"Number of items in queue, post Eval: "<<myQueue.cSize()<< endl;
+        //cout<<"Is the queue empty? "<<endl;
+        //myQueue.isEmpty();
         product = fstack.pop();
+        //fstack.display();
+        //myQueue.toString();
         return(product); //must be saved to a variable
     }
 
@@ -792,6 +803,7 @@ void INFIX_2_POSTFIX(CSQueue myQueue, CSStack myStack, string FILE_NAME)
         ifstream text(FILE_NAME.c_str());
         string s,num;
         int i,n,priority_top,priority_current,temp;
+        //int Qtrack = 0;
         float postEval = 0.0, evalOut = 0.0;
         string currentChar, nextChar, stackTop, toQ;
 
@@ -820,6 +832,8 @@ void INFIX_2_POSTFIX(CSQueue myQueue, CSStack myStack, string FILE_NAME)
                             if(str2int(nextChar)!= 0 || nextChar == "0")
                             {
                                 num +=nextChar;
+                                i++;
+                                //cout <<"\nCurrent Num: "<<num<<endl;
                             }
                             else
                             {
@@ -828,6 +842,8 @@ void INFIX_2_POSTFIX(CSQueue myQueue, CSStack myStack, string FILE_NAME)
                         }
                         //add to queue
                         myQueue.enqueue(num);
+                        //Qtrack += 1;
+                        //myQueue.toString();
                 }
                 else if(currentChar == "(")
                 {
@@ -840,6 +856,7 @@ void INFIX_2_POSTFIX(CSQueue myQueue, CSStack myStack, string FILE_NAME)
                     while(myStack.top() != "(")
                     {
                             myQueue.enqueue(myStack.pop());
+                            //Qtrack += 1;
                     }//while
                     if(myStack.top() == "(")
                     {
@@ -862,6 +879,7 @@ void INFIX_2_POSTFIX(CSQueue myQueue, CSStack myStack, string FILE_NAME)
                     while(priority_top >= priority_current && priority_top != NULL)
                     {
                         myQueue.enqueue(myStack.pop());
+                        //Qtrack += 1;
                         //recalculate priority of top
                         stackTop = myStack.top();
                         priority_top = Spriority(stackTop);
@@ -869,6 +887,7 @@ void INFIX_2_POSTFIX(CSQueue myQueue, CSStack myStack, string FILE_NAME)
                     }
                     //push currentChar to stack
                     myStack.push(currentChar);
+                    //myStack.display();
                 }
                 else
                 {
@@ -884,6 +903,7 @@ void INFIX_2_POSTFIX(CSQueue myQueue, CSStack myStack, string FILE_NAME)
                 for(i=0;i<temp;i++)
                 {
                     myQueue.enqueue(myStack.pop());
+                    //Qtrack += 1;
                     //cout<<"Top of Stack: " <<myStack.top()<<endl;
                 }
             }
@@ -891,8 +911,10 @@ void INFIX_2_POSTFIX(CSQueue myQueue, CSStack myStack, string FILE_NAME)
                 cout<<"Stack index should be -1. \n It is: "<<myStack.myTop<<endl;
             }
             //now print what is in queue
-            cout<<"Postfix: "<<myQueue.toString()<<endl;
+            //cout<<"Queue Size: "<<Qtrack<<endl;
+            cout<<"Postfix: "<<myQueue.toString()<<endl; //This needs to be corrected. Only works properly if the function was longer than previous
             evalOut = EVAL_POSTFIX(myQueue);
+            //Qtrack = 0;
             postEval = postEval + evalOut;
             //Queue should be empty after this
             //Print Evaluation
