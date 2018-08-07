@@ -11,6 +11,7 @@ INFIX_TO_POSTFIX -converts infix expression to postfix using stack and queue
 EVALUATE_POSTFIX -evaluates postfix expression using a stack
  
 Note: all stacks and queues must be implemented using LINKED LISTS.
+Also, expressions that are to be evaluated must be less than a certain number of characters. In this program, that limit is 15.
   
 You need to write operations such as PUSH, POP, and other procedures for manipulating stacks.  You must implement stack and queue, as defined in the textbook or a style of similar.  You cannot just make a function call to the standard stack/queue libraries.  The stack and queue functions must be in your own codes.
   
