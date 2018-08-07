@@ -4,14 +4,17 @@
 #include <cstring>
 #include <sstream>
 
+#define STACK_LIM 10
+#define QUEUE_LIM 15
+
 using namespace std;
 
 
 
 class FStack
 {
-    float fstack[10];
-    int stackSz = 10;
+    float fstack[STACK_LIM];
+    int stackSz = STACK_LIM;
 
 public:
     int myTop = -1;
@@ -139,7 +142,7 @@ int Spriority(string character)
 class CSQueue //String Queue
 {
     //consider a circular queue
-    string cqueue[15];
+    string cqueue[QUEUE_LIM];
     int head = 0;
     int tail = 0;
 
@@ -151,13 +154,13 @@ public:
     {
         //add item to tail of queue. Allows data to be overwritten, so careful with number of enqueues done
         cqueue[tail] = item;
-        tail = (tail+1)%15; //Where 15 is the length of cqueue
+        tail = (tail+1)%QUEUE_LIM; //Where 15 is the length of cqueue
 
         if(qsize<15)
         {//where 15 is length of queue
             qsize = qsize+1;
         }
-        else if(qsize == 15)
+        else if(qsize == QUEUE_LIM)
         {//if queue is full, but enqueue is used to overwrite
                 //need to adjust head and tail as queue is filled
                 head = tail;
@@ -172,7 +175,7 @@ public:
             //cannot dequeue if queue is empty (head==tail)
             string output = cqueue[head];
             head = head+1;
-            if(head>14)
+            if(head>(QUEUE_LIM-1))
             {
                 //if head has gone negative, set to largest queue index
                 head = 0;//15-1
@@ -225,7 +228,7 @@ public:
             //cout<<"Current Head Index: " <<tempHead<<endl;
             //cout<<" "<<cqueue[tempHead]<<endl;
             s = s+" "+cqueue[tempHead];
-            tempHead = (tempHead+1)%15;
+            tempHead = (tempHead+1)%QUEUE_LIM;
 
         }
         //cout<<s<<endl;
@@ -238,8 +241,8 @@ public:
 
 class CSStack  //string stack
 {
-    string cstack[10];
-    int stackSz = 10;
+    string cstack[STACK_LIM];
+    int stackSz = STACK_LIM;
 
 public:
     int myTop = -1;
