@@ -224,7 +224,7 @@ public:
         {
             //cout<<"Current Head Index: " <<tempHead<<endl;
             //cout<<" "<<cqueue[tempHead]<<endl;
-            s = s+cqueue[tempHead];
+            s = s+" "+cqueue[tempHead];
             tempHead = (tempHead+1)%15;
 
         }
@@ -515,7 +515,7 @@ void INFIX_2_POSTFIX(CSQueue myQueue, CSStack myStack, string FILE_NAME)
             postEval = postEval + evalOut;
             //Queue should be empty after this
             //Print Evaluation
-            cout<<"Evaluation: "<<s<<" = "<<evalOut<<endl;
+            cout<<"\nEvaluation: "<<s<<" = "<<evalOut<<endl;
 
             cout<<"\n\n\n";
         }//while
